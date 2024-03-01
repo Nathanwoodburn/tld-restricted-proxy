@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #232429;
+            color: #fff;
+            text-align: center;
+            /* Align in the center vertically */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh
+
+        }
+        bold {
+            text-emphasis: bold;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.25em;
+        }
+        h1 {
+            font-size: 4em;
+            margin-bottom: 0px;
+        }
+        p {
+            font-size: 1.25em;
+        }
+    </style>
+    <script src="https://auth.varo.domains/v1"></script>
+    <!-- Import Jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+    <div>
+        <h1 style="color: red;" id="error">
+            {{error}}
+        </h1>
+        <h1>This content is protected</h1>
+        <p>Please verify you own a <bold>.{{tld}}</bold> domain to access this content</p>
+        <script>
+            var varo = new Varo;
+        </script>
+        <div id="varo-login">
+            <button id="varo-login-button">Login</button>
+        </div>
+        <script>
+            var button = document.getElementById('varo-login-button');
+            button.onclick = function () {
+                varo.auth().then(auth => {
+                    if (auth.success) {
+                        // handle success by calling your api to update the users session
+                        $.post("/auth", JSON.stringify(auth.data), (response) => {
+                            // If response returned true, redirect to the page
+                            if (response == 'Success')
+                                window.location = '{{redirect}}';
+                            else
+                                // Set error message
+                                document.getElementById('error').innerText = response;
+
+                        });
+                    }
+                });
+            }
+        </script>
+    </div>
+</body>
+
+</html>
