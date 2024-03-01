@@ -118,8 +118,6 @@ def catch_all(path):
     if 'text/html' in res.headers['Content-Type']:
         content = res.content.decode('utf-8')
         content = content.replace(URL, request.host_url)
-        # TMP: Replace other domains
-        content = content.replace('https://alee.freeconcept/', request.host_url)
         response = make_response(content, res.status_code, headers)
         return response
     
