@@ -119,9 +119,9 @@ def catch_all(path):
     # If content type is html
     if 'text/html' in res.headers['Content-Type']:
         content = res.content.decode('utf-8')
-        content = content.replace(URL, request.host_url)
+        content = content.replace(URL, request.host)
         for i in REPLACEMENT:
-            content = content.replace(i, request.host_url)
+            content = content.replace(i, request.host)
         response = make_response(content, res.status_code, headers)
         return response
     
