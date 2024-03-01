@@ -14,6 +14,8 @@ RESTRICTED = os.getenv('RESTRICTED')
 RESTRICTED = json.loads(RESTRICTED)
 RESTRICTED = [f'{i.lower()}/' for i in RESTRICTED]
 TLD = os.getenv('TLD')
+REPLACEMENT = os.getenv('REPLACE')
+REPLACEMENT = json.loads(REPLACEMENT)   
 
 # Load cookies
 cookies = []
@@ -118,6 +120,8 @@ def catch_all(path):
     if 'text/html' in res.headers['Content-Type']:
         content = res.content.decode('utf-8')
         content = content.replace(URL, request.host_url)
+        for i in REPLACEMENT:
+            content = content.replace(i, request.host_url)
         response = make_response(content, res.status_code, headers)
         return response
     
